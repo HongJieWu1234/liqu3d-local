@@ -17,3 +17,26 @@ dist/
 .env.*
 !.env.example
 result.json
+
+# Credentials, private key bundles, local databases, and debug logs.
+.ssh/
+.aws/
+.gnupg/
+.npmrc
+credentials.json
+credentials-*.json
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.db
+*.db-*
+*.log
+*.har
