@@ -1,0 +1,15 @@
+.bambu-handoff-dialog { box-sizing:border-box; width:min(380px,calc(100vw - 32px)); max-height:85vh; overflow:auto; padding:20px; border:1px solid var(--line,#ddd); border-radius:14px; background:var(--bg,#fff); color:var(--text,#222); box-shadow:0 12px 48px rgb(0 0 0 / .14); font:14px/1.5 system-ui,sans-serif; }
+.bambu-handoff-dialog::backdrop { background:rgb(0 0 0 / .25); }
+.bambu-handoff-dialog h2 { margin:0; font-size:18px; line-height:1.4; }
+.bambu-handoff-dialog h2:focus { outline:none; }
+.bambu-handoff-dialog p { margin:6px 0 0; color:var(--muted,#626862); }
+.bambu-handoff-files { margin-top:14px; }
+.bambu-handoff-files summary { color:var(--muted,#626862); cursor:pointer; }
+.bambu-handoff-files a { display:block; padding:6px 0; }
+.bambu-handoff-dialog a,.bambu-handoff-actions button { border:0; border-radius:6px; background:transparent; color:inherit; font:inherit; text-decoration:none; overflow-wrap:anywhere; cursor:pointer; }
+.bambu-handoff-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; margin-top:20px; }
+.bambu-handoff-actions a,.bambu-handoff-actions button { padding:7px 0; }
+.bambu-handoff-dialog a:hover,.bambu-handoff-actions button:not(.bambu-handoff-done):hover { text-decoration:underline; }
+.bambu-handoff-actions .bambu-handoff-done { margin-left:auto; padding:7px 14px; background:var(--text,#222); color:var(--bg,#fff); }
+.bambu-handoff-dialog a:focus-visible,.bambu-handoff-dialog button:focus-visible,.bambu-handoff-files summary:focus-visible { outline:2px solid var(--accent,#008c38); outline-offset:3px; }
+.bambu-handoff-dialog .bambu-handoff-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }

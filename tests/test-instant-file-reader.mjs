@@ -1,0 +1,21 @@
+import './setup.mjs';
+import assert from 'node:assert/strict';
+import { readModelFiles, readSelectedFile } from '../public/instant-file-reader.js';
+import { zipSync, strToU8 } from '../public/vendor/three/addons/libs/fflate.module.js';
+
+const model = new File(['cube(1);'], 'model.scad');
+let ignoredReads = 0;
+const unreadableIgnored = name => ({ name, size: 12, async arrayBuffer() { ignoredReads++; throw new DOMException('File access lost', 'NotReadableError'); } });
+const result = await readModelFiles([unreadableIgnored('project.csproj'), model, unreadableIgnored('source.cs'), unreadableIgnored('.DS_Store')]);
+assert.equal(result.length, 1);assert.equal(result[0].path, 'model.scad');assert.equal(ignoredReads, 0, 'unsupported files are skipped before any read');
+assert.equal(Buffer.from(result[0].base64,'base64').toString(),'cube(1);');
+const unreadable = { ...unreadableIgnored('shape.scad'), webkitRelativePath:'project/shape.scad' };
+await assert.rejects(readModelFiles([model, unreadable]), error => /project\/shape.scad/.test(error.message) && /Select the file again/.test(error.message));
+await assert.rejects(readSelectedFile(unreadableIgnored('Orders.txt')), /Orders.txt/);
+const zip = new File([zipSync({'model.scad':strToU8('cube(1);'),'project.csproj':strToU8('ignored')})],'project.zip');
+assert.deepEqual((await readModelFiles([zip])).map(file=>file.path),['project.zip'],'ZIPs reach server quarantine intact');
+await assert.rejects(readModelFiles([unreadableIgnored('only.cs')]), /Add a SCAD/);
+await assert.rejects(readModelFiles([{...unreadableIgnored('large.zip'),size:17*1024*1024}]), /16 MB/);
+const oversized = {...unreadableIgnored('large.scad'),size:9*1024*1024};
+await assert.rejects(readModelFiles([oversized]), /8 MB/);
+console.log('Instant file reading passed: unreadable ignored files, named read errors, valid uploads, raw ZIP uploads and early size checks.');

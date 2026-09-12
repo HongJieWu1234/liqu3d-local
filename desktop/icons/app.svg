@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Liqu3D Local</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#30383b"/><stop offset="1" stop-color="#101617"/></linearGradient>
+    <linearGradient id="liquid" x1="300" y1="230" x2="720" y2="790" gradientUnits="userSpaceOnUse"><stop stop-color="#d5ffaf"/><stop offset=".55" stop-color="#a3f4ad"/><stop offset="1" stop-color="#49c9a2"/></linearGradient>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="204" fill="url(#tile)"/>
+  <rect x="66" y="66" width="892" height="892" rx="202" fill="none" stroke="#ffffff" stroke-opacity=".08" stroke-width="4"/>
+  <path fill="url(#liquid)" d="M512 202C462 302 292 442 292 562a220 220 0 0 0 440 0C732 442 562 302 512 202Z"/>
+</svg>

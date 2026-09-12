@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your library · Liqu3D</title>
+  <link rel="icon" href="/favicon.svg?v=liqu3d2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/projects.css?v=liqu3d2">
+  <link rel="stylesheet" href="/instant.css?v=instant-restored1">
+  <link rel="stylesheet" href="/export-history.css?v=6">
+<link rel="stylesheet" href="/bambu-handoff.css?v=2">
+</head>
+<body>
+  <header class="library-header">
+    <a class="brand" href="/projects" aria-label="Library">
+      <img class="liqu3d-mark" src="/favicon.svg?v=liqu3d2" width="38" height="38" alt=""><span class="liqu3d-wordmark">Liqu3D</span>
+    </a>
+    <div class="library-menu-wrap">
+      <button id="libraryMenuButton" type="button" class="library-menu-button" aria-label="Open menu" aria-haspopup="menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div id="libraryMenu" class="library-menu" role="menu" hidden>
+        <span id="accountEmail" class="library-account-email">On this device</span>
+        <button id="accountSettingsBtn" type="button" role="menuitem">Settings</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="library-intro" aria-labelledby="libraryTitle">
+      <div>
+        <p class="eyebrow">Private library</p>
+        <h1 id="libraryTitle">Pick up where you left off.</h1>
+        <p>Each workspace keeps its SCAD sources, parameter values, objects, plates, and saved layout together.</p>
+      </div>
+      <button id="newWorkspaceBtn" type="button" class="primary-button"><span aria-hidden="true">＋</span> Add new</button>
+    </section>
+
+    <section class="workspace-section" aria-labelledby="recentTitle">
+      <div class="section-heading">
+        <h2 id="recentTitle">Your projects</h2>
+        <button id="exportHistoryBtn" class="export-history-trigger" type="button">Export history</button>
+      </div>
+      <div id="workspaceGrid" class="workspace-grid" aria-live="polite"></div>
+      <div id="emptyState" class="empty-state" hidden>
+        <div class="empty-preview" aria-hidden="true"><span></span><span></span><span></span></div>
+        <h2>No projects yet</h2>
+        <p>Create a workspace or a Quick batch.</p>
+        <button id="emptyNewWorkspaceBtn" type="button" class="primary-button">+ Add new</button>
+      </div>
+      <p id="libraryMessage" class="library-message" role="alert"></p>
+    </section>
+  </main>
+
+  <dialog id="addNewDialog" class="new-workspace-dialog" aria-labelledby="addNewTitle"><form method="dialog"><div class="dialog-heading"><h2 id="addNewTitle">Add new</h2><button class="icon-button" aria-label="Close">×</button></div><div class="add-new-choices"><button id="chooseWorkspaceBtn" type="button" class="quiet-button">Workspace</button><button id="chooseInstantBtn" type="button" class="quiet-button">Quick batch</button></div></form></dialog>
+
+  <dialog id="newWorkspaceDialog" class="new-workspace-dialog" aria-labelledby="newWorkspaceTitle">
+    <form id="newWorkspaceForm" method="dialog">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">New workspace</p><h2 id="newWorkspaceTitle">Start clean</h2></div>
+        <button id="closeNewWorkspaceBtn" type="button" class="icon-button" aria-label="Close">×</button>
+      </div>
+      <label for="newWorkspaceName">Workspace name</label>
+      <input id="newWorkspaceName" type="text" maxlength="120" value="Untitled workspace" required autocomplete="off">
+      <p>A new workspace starts empty. Add one or more SCAD files after it opens.</p>
+      <div class="dialog-actions">
+        <button id="cancelNewWorkspaceBtn" type="button" class="quiet-button">Cancel</button>
+        <button id="createWorkspaceBtn" type="submit" class="primary-button">Create workspace</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="/projects.js?v=local1"></script>
+</body>
+</html>

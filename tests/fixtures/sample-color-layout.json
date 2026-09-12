@@ -1,0 +1,437 @@
+{
+  "description": "Dimensions and layer colors measured from the user-provided sample.scad using OpenSCAD 2026.08.30 with Manifold and textmetrics; millimeters, 0.2 mm layers.",
+  "objects": [
+    {
+      "width": 108.84092,
+      "depth": 23.099579,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 108.84092,
+      "depth": 23.099579,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 88.18331599999999,
+      "depth": 25.163508,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 88.18331599999999,
+      "depth": 25.163508,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 57.768386,
+      "depth": 25.163505999999998,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 91.97255200000001,
+      "depth": 28.049318,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 68.833366,
+      "depth": 24.03805,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 67.966472,
+      "depth": 25.210444,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 82.348996,
+      "depth": 25.163508,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 78.59044399999999,
+      "depth": 28.049318,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#72D1F2|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 102.782468,
+      "depth": 25.163508,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#F4F4EA|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#AAE59E|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 80.11209199999999,
+      "depth": 27.017045,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#72D1F2|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 97.97751600000001,
+      "depth": 23.991114,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#72D1F2|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 114.029324,
+      "depth": 25.210469,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#0A1E59|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 114.029324,
+      "depth": 25.210469,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#0A1E59|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    },
+    {
+      "width": 56.984898,
+      "depth": 25.163505999999998,
+      "runs": [
+        {
+          "from": 1,
+          "to": 15,
+          "colors": [
+            "#916DDB|PLA"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 19,
+          "colors": [
+            "#020202|PLA"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 25,
+          "colors": [
+            "#FF9EC1|PLA"
+          ]
+        }
+      ]
+    }
+  ]
+}

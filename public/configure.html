@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product configurator · Liqu3D</title>
+  <link rel="icon" href="/favicon.svg?v=liqu3d2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/configure.css?v=liqu3d-theme1">
+</head>
+<body>
+  <main class="configurator-shell">
+    <header class="configurator-header">
+      <span>Parametric product</span>
+      <h1 id="configuratorTitle">Loading configurator…</h1>
+      <p id="configuratorSku"></p>
+    </header>
+    <form id="configuratorForm" class="configurator-card" hidden>
+      <div class="configurator-order-fields">
+        <label><span>Order reference <small>optional</small></span><input id="configOrderRef" maxlength="120" placeholder="Order #1842"></label>
+        <label><span>Name / customer <small>optional</small></span><input id="configCustomer" maxlength="120" placeholder="Customer name"></label>
+        <label><span>Quantity</span><input id="configQuantity" type="number" min="1" max="10000" value="1"></label>
+      </div>
+      <section>
+        <div class="configurator-section-heading"><h2>Customize</h2><p>Only options approved by the product designer are shown.</p></div>
+        <div id="configuratorFields" class="configurator-fields"></div>
+      </section>
+      <div id="configuratorMessage" class="configurator-message" role="status" aria-live="polite"></div>
+      <footer><button id="submitConfiguration" type="submit">Submit production request</button></footer>
+    </form>
+    <section id="configuratorResult" class="configurator-result" hidden></section>
+  </main>
+  <script type="module" src="/configure.js?v=liqu3d2"></script>
+</body>
+</html>

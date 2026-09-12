@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "$1" = "--version" ]; then
+  echo "OpenSCAD version 2021.01-test"
+  exit 0
+fi
+if [ "$1" = "--help" ]; then
+  echo "Usage: openscad [options] file.scad"
+  echo "  --export-format arg"
+  exit 0
+fi
+exit 2

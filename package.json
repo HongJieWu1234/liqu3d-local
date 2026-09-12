@@ -1,0 +1,41 @@
+{
+  "name": "liqu3d-local",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Liqu3D desktop editor with local projects and native OpenSCAD rendering",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "test:prime-tower": "node tests/test-prime-tower-layers.mjs && node tests/test-prime-tower-movement.mjs && node tests/test-prime-tower-packing.mjs && node tests/test-prime-tower-preview.mjs",
+    "test:parser": "node tests/test-parser.mjs && node tests/test-parser-robustness.mjs && node tests/test-parser-runtime.mjs",
+    "test:bambu": "node tests/test-bambu-export.mjs && node tests/test-print-ui-state.mjs",
+    "test": "npm run test:local",
+    "test:instant": "node tests/test-instant-security.mjs && node tests/test-scad-object-selectors.mjs && node tests/test-instant-file-reader.mjs && node tests/test-prime-tower-packing.mjs && node tests/test-plate-ids-export.mjs && node tests/test-instant-color-optimization.mjs && node tests/test-workspace-color-optimization.mjs && node tests/test-instant-orders.mjs && node tests/test-instant-matching.mjs && node tests/test-instant-store.mjs && node tests/test-instant-api.mjs",
+    "test:instant-container": "node tests/test-instant-container.mjs",
+    "test:color-budget": "node tests/test-color-optimization-audit.mjs && node tests/test-color-budget.mjs && node tests/test-color-budget-ui.mjs && node tests/test-sample-color-layout.mjs && node tests/test-workspace-color-optimization.mjs && node tests/test-export-selection.mjs",
+    "test:editor": "node tests/test-editor-history.mjs && node tests/test-origin-layout.mjs && node tests/test-object-removal.mjs && node tests/test-plate-removal.mjs && node tests/test-selection-viewer.mjs && node tests/test-multiselect.mjs && node tests/test-object-settings.mjs && node tests/test-conditional-preview.mjs && node tests/test-workspace-color-optimization.mjs && node tests/test-incremental-objects.mjs && node tests/test-preview-meshes.mjs && node tests/test-preview-prefetch.mjs",
+    "test:export-history": "node tests/test-bambu-launch.mjs && node tests/test-purge-estimate.mjs && node tests/test-export-history-report.mjs && node tests/test-export-history.mjs && node tests/test-export-history-deletion-api.mjs && node tests/test-export-selection.mjs",
+    "test:settings-api": "node tests/test-settings-preview-api.mjs",
+    "test:instant-packing-api": "node tests/test-instant-packing-api.mjs",
+    "test:all": "node scripts/run-tests.mjs",
+    "test:runtime": "node scripts/run-tests.mjs runtime",
+    "start:server": "node server.mjs",
+    "package": "node scripts/package-desktop.mjs",
+    "test:local": "node tests/test-local-desktop.mjs"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "^0.9.12"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "electron": "^44.3.0",
+    "meshoptimizer": "0.25.0"
+  },
+  "productName": "Liqu3D Local",
+  "main": "desktop/main.cjs"
+}

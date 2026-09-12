@@ -1,0 +1,45 @@
+{
+	servers {
+		timeouts {
+			read_body 130s
+			read_header 10s
+			write 140s
+			idle 30s
+		}
+		max_header_size 16KB
+	}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	@health path /healthz
+	respond @health 404
+
+	request_body {
+		max_size 25MB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Robots-Tag "noindex, nofollow, noarchive"
+		-Server
+	}
+
+	log {
+		output stdout
+		format json
+	}
+
+	reverse_proxy app:4173 {
+		health_uri /healthz
+		health_interval 30s
+		lb_try_duration 5s
+		transport http {
+			dial_timeout 3s
+			response_header_timeout 130s
+			read_timeout 130s
+			write_timeout 130s
+		}
+	}
+}

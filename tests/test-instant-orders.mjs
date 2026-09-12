@@ -1,0 +1,50 @@
+import './setup.mjs';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { parseScadParameters } from '../lib/parser.mjs';
+import { parseOrders, resolveOrders } from '../lib/instant-orders.mjs';
+import { normalizeAssets, validateDependencies } from '../lib/instant-assets.mjs';
+import { arrangeObjects } from '../lib/instant-generation.mjs';
+import { PRINTERS } from '../public/print-settings-schema.js';
+const parameters=parseScadParameters('name_text="A";\nsize=5; // [1:1:20]\ncolor="Red"; // [Red,Navy Blue]\nenabled=true;\npoints=[1,2];');
+const sparse=resolveOrders(parseOrders('Name: First\nSize: 12\nColor: Navy Blue\nEnabled: false\nPoints: [3,4]\n\nName: Second'),parameters);
+assert.deepEqual(sparse.errors,[]);
+assert.deepEqual(sparse.objects[1].values,{name_text:'Second',size:5,color:'Red',enabled:true,points:[1,2]});
+const nextUpload=resolveOrders(parseOrders('Name,Qty\nThird,2'),parameters,{},sparse.objects[0].values);
+assert.deepEqual(nextUpload.errors,[]);
+assert.equal(nextUpload.objectCount,2);
+assert.deepEqual(nextUpload.objects[0].values,{name_text:'Third',size:5,color:'Red',enabled:true,points:[1,2]});
+assert.equal(resolveOrders(parseOrders('name_text,size\n"",8'),parameters).objects[0].values.name_text,'','explicit empty text remains an override');
+for(const delimiter of [',','\t',';','|']){
+  const parsed=parseOrders(`\uFEFFname_text${delimiter}size${delimiter}color${delimiter}Qty\r\n"A${delimiter}B"${delimiter}8${delimiter}Navy_Blue${delimiter}2\r\n`);
+  const resolved=resolveOrders(parsed,parameters,{},Object.fromEntries(parameters.map(p=>[p.name,p.default])));
+  assert.deepEqual(resolved.errors,[]);assert.equal(resolved.objectCount,2);assert.equal(resolved.objects[0].values.name_text,`A${delimiter}B`);assert.equal(resolved.objects[0].values.color,'Navy Blue');
+}
+assert.equal(parseOrders('name_text\n  Alice  \nBob  ').records[1].name_text,'Bob  ');
+assert.equal(parseOrders('Name: A\nsize: 4\n\nName: B\nsize: 6').records.length,2);
+assert.equal(parseOrders('name_text,size\n"first\nsecond",5').records[0].name_text,'first\nsecond');
+assert.throws(()=>parseOrders('Name: A\nName: B'),/duplicate/);
+assert.throws(()=>parseOrders('name,size\n"oops,5'),/format|quote/);
+assert.ok(resolveOrders(parseOrders('size,Qty\n999,2'),parameters).errors[0].includes('Order 1'));
+assert.ok(resolveOrders(parseOrders('size,Qty\n8,101'),parameters).errors.length);
+assert.ok(resolveOrders(parseOrders('size,Qty\n8,60\n9,60'),parameters).errors.some(error=>error.includes('100')));
+const quantities=parseScadParameters('quantity=1;');
+assert.deepEqual(resolveOrders(parseOrders('Quantity: 2'),quantities).unresolved,['Quantity']);
+assert.equal(resolveOrders(parseOrders('Quantity: 2'),quantities,{'Quantity':'@quantity'}).objectCount,2);
+const asset=(path,source)=>({path,base64:Buffer.from(source).toString('base64')});
+assert.throws(()=>normalizeAssets([asset('../outside.scad','cube(1);')]),/inside/);
+assert.throws(()=>validateDependencies([asset('main.scad','include <missing.scad>')]),/missing/);
+validateDependencies([asset('models/main.scad','include <../lib/part.scad>'),asset('lib/part.scad','cube(1);')]);
+const objects=Array.from({length:16},(_,index)=>({index,name:`Object ${index}`,width:110,depth:50}));
+assert.ok(arrangeObjects(objects,PRINTERS.p1s)>1);
+for(const object of objects)assert.ok(object.placement.x>=5&&object.placement.y>=5);
+assert.throws(()=>arrangeObjects([{index:0,name:'Huge',width:1000,depth:1000}],PRINTERS.p1s),/does not fit/);
+const fixture=process.env.PMM_INSTANT_FIXTURE_DIR;
+if(fixture){
+ const source=fs.readFileSync(fixture+'/GENERATION/fridge_tag_template.scad','utf8');
+ const catalog=parseScadParameters(source).filter(param=>!/^design[2-9]/.test(param.name));
+ const result=resolveOrders(parseOrders(fs.readFileSync(fixture+'/Orders.txt','utf8')),catalog);
+ assert.deepEqual(result.unresolved,[]);assert.deepEqual(result.errors,[]);assert.equal(result.objectCount,16);
+ assert.equal(result.objects[0].values.design1_shadow_color_preview,'Navy Blue');
+}
+console.log('Instant import passed: formats, aliases, types, quantities, dependency paths, packing.');

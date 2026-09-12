@@ -1,0 +1,12 @@
+.git
+.env*
+secrets
+cache
+data
+fonts/custom
+.DS_Store
+npm-debug.log*
+node_modules
+tests/
+result.json
+*.zip

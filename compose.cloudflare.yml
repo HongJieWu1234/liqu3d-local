@@ -1,0 +1,167 @@
+name: parametric-scad-maker-v5-52-cloudflare
+
+services:
+  worker-image:
+    build:
+      context: .
+      target: worker
+    image: scad-maker-worker:v1
+    # Build the execution image before starting the manager; no uploaded work
+    # runs in this one-shot image registration container.
+    entrypoint: ["/usr/local/bin/node", "-e", ""]
+    network_mode: none
+    user: "10000:10000"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 16
+    mem_limit: 128m
+
+  renderer:
+    depends_on:
+      worker-image:
+        condition: service_completed_successfully
+    # This trusted manager controls Docker. The app and disposable workers do not.
+    group_add:
+      - "${PMM_DOCKER_GID:-0}"
+    build:
+      context: .
+      target: renderer
+    image: scad-maker-renderer:v1
+    init: true
+    restart: unless-stopped
+    expose:
+      - "4180"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 4180
+      NODE_ENV: production
+      PMM_RENDERER_TRUST_INTERNAL: "1"
+      OPENSCAD_RENDER_TIMEOUT_MS: "${OPENSCAD_RENDER_TIMEOUT_MS:-120000}"
+      PMM_RENDERER_MAX_OUTPUT_MB: "${PMM_RENDERER_MAX_OUTPUT_MB:-64}"
+      PMM_WORKER_IMAGE: scad-maker-worker:v1
+      PMM_WORKER_FONT_VOLUME: "${COMPOSE_PROJECT_NAME}_custom_fonts"
+      PMM_WORKER_SCOPE: "${COMPOSE_PROJECT_NAME}"
+      PMM_WORKER_MEMORY: "${PMM_WORKER_MEMORY:-1g}"
+      PMM_WORKER_CPUS: "${PMM_WORKER_CPUS:-1}"
+      PMM_WORKER_MAX_JOBS: "${OPENSCAD_MAX_JOBS:-2}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=1g
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 192
+    mem_limit: "${RENDERER_MEMORY_LIMIT:-1g}"
+    cpus: "${RENDERER_CPU_LIMIT:-2.0}"
+    networks:
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  app:
+    build:
+      context: .
+      target: app
+    image: scad-maker:v1
+    init: true
+    restart: unless-stopped
+    depends_on:
+      renderer:
+        condition: service_healthy
+    expose:
+      - "4173"
+    environment:
+      NODE_ENV: production
+      PMM_INTERNAL_BIND: "1"
+      HOST: 0.0.0.0
+      PORT: 4173
+      PMM_TRUST_PROXY: cloudflare
+      PMM_PUBLIC_ORIGIN: "https://${DOMAIN:?Set DOMAIN in .env.cloudflare}"
+      PMM_ALLOWED_HOSTS: "${DOMAIN:?Set DOMAIN in .env.cloudflare}"
+      PMM_RATE_LIMIT: "${PMM_RATE_LIMIT:-1200}"
+      PMM_RENDER_RATE_LIMIT: "${PMM_RENDER_RATE_LIMIT:-240}"
+      PMM_AUTH_FAILURE_LIMIT: "${PMM_AUTH_FAILURE_LIMIT:-12}"
+      PMM_ACCOUNT_STORAGE_MB: "${PMM_ACCOUNT_STORAGE_MB:-2048}"
+      PMM_RESEND_API_KEY_FILE: /run/secrets/resend_api_key
+      PMM_EMAIL_FROM: "${PMM_EMAIL_FROM:?Set PMM_EMAIL_FROM in .env.cloudflare}"
+      PMM_RENDERER_URL: http://renderer:4180
+      PMM_RENDERER_TRUST_INTERNAL: "1"
+      PMM_BAMBU_PROFILES_DIR: /app/bambu-profiles/BBL
+      OPENSCAD_MAX_JOBS: "${OPENSCAD_MAX_JOBS:-2}"
+      OPENSCAD_FULL_RENDER_SLOTS: "${OPENSCAD_FULL_RENDER_SLOTS:-1}"
+      OPENSCAD_MAX_QUEUE: "${OPENSCAD_MAX_QUEUE:-24}"
+    secrets:
+      - resend_api_key
+    volumes:
+      - account_data:/app/data
+      - custom_fonts:/app/fonts/custom
+      - render_cache:/app/cache
+      - ./bambu-profiles/BBL:/app/bambu-profiles/BBL:ro
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=512m
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 192
+    mem_limit: "${APP_MEMORY_LIMIT:-2g}"
+    cpus: "${APP_CPU_LIMIT:-2.0}"
+    networks:
+      - edge
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  tunnel:
+    image: cloudflare/cloudflared:2026.8.2
+    restart: unless-stopped
+    command: ["tunnel", "--no-autoupdate", "run", "--token-file", "/run/secrets/cloudflare_tunnel_token"]
+    depends_on:
+      app:
+        condition: service_healthy
+    secrets:
+      - cloudflare_tunnel_token
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=64m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 128
+    mem_limit: 256m
+    cpus: "0.5"
+    networks:
+      - edge
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+networks:
+  edge:
+  backend:
+    internal: true
+
+volumes:
+  account_data:
+  custom_fonts:
+  render_cache:
+
+secrets:
+  cloudflare_tunnel_token:
+    file: ./secrets/cloudflare-tunnel-token
+  resend_api_key:
+    file: ./secrets/resend-api-key

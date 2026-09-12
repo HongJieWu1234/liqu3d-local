@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="liqu3d-local" content="true">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workspace · Liqu3D</title>
+  <link rel="icon" href="/favicon.svg?v=liqu3d2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/styles.css?v=storage-browser4">
+  <link rel="modulepreload" href="/app.js?v=local1">
+  <link rel="modulepreload" href="/vendor/three/three.module.js">
+  <link rel="modulepreload" href="/vendor/three/three.core.js">
+  <link rel="modulepreload" href="/print-settings-schema.js?v=tower-free1">
+  <link rel="modulepreload" href="/workflow-store.js?v=1.0.0-cleanup1">
+  <link rel="modulepreload" href="/production-dashboard.js?v=1.0.0-variants-only1">
+  <link rel="modulepreload" href="/export-geometry.js?v=1.0.0">
+  <link rel="stylesheet" href="/color-budget.css?v=2">
+<link rel="stylesheet" href="/bambu-handoff.css?v=2">
+</head>
+<body>
+  <div class="app-shell" data-has-models="false">
+    <aside id="sidebar" class="sidebar">
+      <header class="side-header">
+        <div class="brand-row">
+          <div class="brand-copy">
+            <img class="workspace-logo" src="/favicon.svg?v=liqu3d2" width="18" height="18" alt=""><h1>Liqu3D</h1>
+          </div>
+          <div class="brand-actions"><button id="workflowBtn" type="button" class="toolbar-button header-workflow-button" title="Variants, rules, and workspace tools">Advanced <span class="beta-badge">Beta</span></button></div>
+        </div>
+        <div id="status" class="status" aria-live="polite" hidden>Connecting to OpenSCAD…</div>
+      </header>
+
+      <section id="workspaceStart" class="workspace-start" aria-labelledby="workspaceStartTitle">
+        <h2 id="workspaceStartTitle">Start with a model</h2>
+        <p>Add an OpenSCAD (.scad) file, or try a name tag. Then change its settings and export it for your slicer.</p>
+        <button id="workspaceAddModelBtn" type="button" class="button primary">Add model file</button>
+        <button id="workspaceSampleBtn" type="button" class="button secondary">Try a name tag</button>
+      </section>
+
+      <div class="control-tools">
+        <label class="sr-only" for="parameterSearch">Search SCAD settings</label>
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="parameterSearch" type="search" placeholder="Search settings" autocomplete="off">
+        </div>
+        <nav id="sectionTabs" class="section-tabs" aria-label="OpenSCAD parameter sections"></nav>
+      </div>
+
+      <form id="parameterForm" class="controls"></form>
+
+      <div class="actions">
+        <button id="generateBtn" type="button" class="button secondary" disabled>Generate all</button>
+        <button id="preflightBtn" type="button" class="button secondary" title="Check plate fit, spacing, geometry, and support risks before export">Check plates</button>
+        <button id="mfBtn" type="button" class="button primary" aria-haspopup="dialog" aria-expanded="false" title="Choose what to export and create the production 3MF.">Export</button>
+
+      </div>
+    </aside>
+
+    <main class="viewer-panel">
+      <div class="viewer-toolbar">
+        <input id="scadFileInput" class="sr-only" type="file" accept=".scad,text/plain" multiple>
+        <button id="addScadBtn" type="button" class="toolbar-button add-scad-button" title="Add one or more OpenSCAD files">
+          <span aria-hidden="true">＋</span> Add SCAD files
+        </button>
+        <button id="removeActivePlateBtn" type="button" class="toolbar-button remove-plate-button" title="Remove the selected SCAD source" hidden>Remove plate</button>
+        <div class="workspace-title-center">
+          <label class="sr-only" for="workspaceName">Workspace name</label>
+          <input id="workspaceName" class="workspace-name" type="text" maxlength="120" value="Workspace" autocomplete="off" aria-label="Workspace name">
+        </div>
+        <div class="toolbar-right">
+          <button id="saveWorkspaceBtn" type="button" class="toolbar-button save-workspace-button" title="Save workspace (Ctrl/Command + S)">Save</button>
+          <div class="app-menu-wrap">
+            <button id="appMenuButton" type="button" class="app-menu-button" aria-label="Open workspace menu" aria-haspopup="menu" aria-controls="appMenu" aria-expanded="false">
+              <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+            </button>
+            <div id="appMenu" class="app-menu" role="menu" hidden>
+              <div class="account-summary">
+                <span class="account-avatar" aria-hidden="true">P</span>
+                <span id="accountEmail" class="account-email">On this device</span>
+              </div>
+              <a href="/projects" role="menuitem">Library</a>
+              <button id="workspaceHistoryBtn" type="button" role="menuitem">Version history</button>
+              <button id="accountSettingsBtn" type="button" role="menuitem">Settings</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button id="controlsEdgeToggle" type="button" class="edge-panel-toggle controls-edge-toggle" aria-controls="sidebar" aria-expanded="true" aria-label="Collapse controls" title="Collapse controls">
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button id="printSettingsEdgeToggle" type="button" class="edge-panel-toggle print-edge-toggle" aria-controls="printDrawer" aria-expanded="false" aria-label="Expand print settings" title="Expand print settings">
+        <span aria-hidden="true">‹</span>
+      </button>
+
+      <section id="plateTray" class="plate-tray" aria-label="Build plates" hidden>
+        <div class="plate-tray-heading">
+          <div>
+            <strong>Build plates</strong>
+            <span>Shift+A–Z moves the selected object</span>
+          </div>
+          <span id="plateCount" class="plate-count">1 plate</span>
+        </div>
+        <div id="plateList" class="plate-list"></div>
+        <div id="plateDropHint" class="plate-drop-hint" aria-hidden="true">Drop .scad files to add plates</div>
+      </section>
+
+      <div id="viewer" class="viewer" aria-label="Interactive 3D build plates. Click a plate or object to edit it.">
+        <div id="plateZoneLegend" class="plate-zone-legend" hidden>
+          <span data-zone="nozzle"><i class="zone-swatch nozzle"></i>Nozzle-specific reach</span>
+        </div>
+        <div id="plateBadge" class="plate-badge">256 × 256 mm</div>
+        <div id="selectionLabel" class="selection-label" hidden>
+          <strong id="selectionLabelName"></strong>
+          <span id="selectionLabelDimensions"></span>
+        </div>
+        <div id="viewerMessage" class="viewer-message generating" role="status" aria-live="polite">Opening workspace…</div>
+      </div>
+
+      <aside id="printDrawer" class="print-drawer bambu-settings-panel" aria-label="Print settings" aria-hidden="true">
+        <header class="drawer-header bambu-drawer-header">
+          <div><span class="drawer-kicker">Bambu project profile</span><h2>Print settings</h2></div>
+          <button id="closePrintSettingsBtn" type="button" class="quiet-icon" aria-label="Close print settings">×</button>
+        </header>
+
+        <div class="bambu-context-stack">
+          <section class="bambu-context-section">
+            <div class="bambu-context-title"><span class="bambu-context-icon">▣</span><strong>Printer</strong></div>
+            <select id="printerSelect" class="bambu-context-select" aria-label="Printer"></select>
+            <div class="bambu-context-inline">
+              <label><span>Nozzle</span><select id="nozzleDiameterSelect" aria-label="Nozzle diameter"></select></label>
+              <label><span>Plate type</span><select id="bedTypeSelect"><option>Textured PEI</option><option>Smooth PEI</option><option>Cool Plate</option><option>Engineering Plate</option></select></label>
+            </div>
+          </section>
+
+          <section class="bambu-context-section">
+            <div class="bambu-context-title"><span class="bambu-context-icon">◫</span><strong>Filament</strong></div>
+            <button id="bambuFilamentRow" type="button" class="bambu-filament-row" aria-pressed="false" aria-haspopup="dialog" aria-expanded="false" title="Edit filament settings"><span id="bambuFilamentSummary">Generic PLA</span><span class="bambu-row-chevron" aria-hidden="true">›</span></button>
+          </section>
+
+          <section class="bambu-context-section bambu-process-section">
+            <div class="bambu-context-title bambu-process-title"><strong>Process</strong></div>
+            <label class="prime-tower-toggle"><span>Prime tower</span><input id="primeTowerToggle" class="toggle" type="checkbox" checked></label>
+            <div class="bambu-mode-pill" role="group" aria-label="Process settings scope"><button id="bambuGlobalModeBtn" type="button" class="active" aria-pressed="true">All objects</button><button id="bambuObjectsModeBtn" type="button" aria-pressed="false">Selected object</button></div>
+            <div id="processProfileControls" class="process-profile-controls">
+              <div class="profile-menu-wrap">
+                <button id="profileMenuButton" type="button" class="profile-menu-button bambu-process-profile" aria-label="Print preset" aria-haspopup="listbox" aria-expanded="false"><span id="profileMenuLabel">Choose profile</span><span class="profile-menu-chevron" aria-hidden="true">⌄</span></button>
+                <div id="profileMenu" class="profile-menu" hidden><div id="profileMenuOptions" class="profile-menu-options" role="listbox" aria-label="Saved print profiles"></div><button id="addProfileBtn" type="button" class="profile-menu-add"><span aria-hidden="true">＋</span> Add new profile</button></div>
+              </div>
+              <div id="newProfileField" class="new-profile-field" hidden><label class="compact-field" for="profileName"><span>New profile name</span><input id="profileName" type="text" maxlength="120" placeholder="Profile name"></label><button id="cancelNewProfileBtn" type="button" class="quiet-profile-button">Cancel</button></div>
+              <div class="bambu-profile-tools"><button id="useBambuDefaultsBtn" type="button" class="mini-button" title="Load the defaults for your selected printer and filament">Use Bambu defaults</button><span class="bambu-color-controls"><label class="bambu-color-optimization"><input id="reduceColorChanges" type="checkbox" title="Arrange editor objects by color using up to 4 filament slots. Moving an object turns this off."><span>Reduce color changes</span></label><button id="colorBudgetButton" class="quiet-icon" type="button" aria-label="Color change settings" aria-haspopup="dialog" aria-expanded="false" title="Color change settings">⚙</button></span><span id="bambuPresetSource" class="bambu-preset-source" role="status" hidden></span></div>
+            </div>
+            <div id="objectPrintScopeNote" class="object-print-scope-note" hidden><span>Editing object</span><strong id="objectPrintScopeName">Select an object</strong></div>
+            <span id="profileFileName" hidden>Unsaved defaults</span>
+          </section>
+        </div>
+
+        <div class="print-search-row"><div class="search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input id="printSettingSearch" type="search" placeholder="Search settings" autocomplete="off"></div></div>
+        <nav id="printTabs" class="print-tabs bambu-print-tabs" aria-label="Print setting categories"></nav>
+        <form id="printSettingsForm" class="print-settings-form bambu-settings-form"></form>
+
+        <section id="advancedSettings" class="advanced-settings" hidden><label for="advancedJson">Advanced process overrides</label><textarea id="advancedJson" spellcheck="false" rows="12" placeholder='{"seam_slope_type":"external"}'></textarea><p class="drawer-note">Uses Bambu project keys. G-code, machine identity and AMS mapping keys are blocked.</p></section>
+
+        <footer class="drawer-actions"><button id="resetPrintBtn" type="button" class="button text-button">Reset</button><button id="downloadProfileBtn" type="button" class="button secondary">Export JSON</button><button id="savePrintBtn" type="button" class="button primary">Save profile</button></footer>
+        <div id="profileToast" class="profile-toast" role="status" aria-live="polite" hidden><span class="profile-toast-check" aria-hidden="true">✓</span><span id="profileToastText">Profile saved</span></div>
+      </aside>
+
+
+
+      <div id="preflightModal" class="feature-modal" hidden aria-hidden="true">
+        <div class="feature-modal-backdrop" data-preflight-close></div>
+        <section class="feature-dialog preflight-dialog" role="dialog" aria-modal="true" aria-labelledby="preflightTitle">
+          <header class="feature-dialog-header">
+            <div><span class="drawer-kicker">Before export</span><h2 id="preflightTitle">Plate check</h2></div>
+            <button id="closePreflightBtn" type="button" class="quiet-icon" aria-label="Close plate check">×</button>
+          </header>
+          <div class="preflight-overview">
+            <span id="preflightScore" class="preflight-score">Checking…</span>
+            <p id="preflightSummary">Generating current geometry before inspection.</p>
+          </div>
+          <p class="settings-empty">Heuristic printability check only. It samples local thickness, first-layer contact, clearances, hole/text scale and overhangs, but it is not a structural/thermal simulation or slicer guarantee.</p>
+          <div id="preflightResults" class="preflight-results" aria-live="polite"></div>
+          <footer class="feature-dialog-footer">
+            <span id="preflightTimestamp">Not checked yet</span>
+            <button id="rerunPreflightBtn" type="button" class="button primary">Run again</button>
+          </footer>
+        </section>
+      </div>
+
+      <div id="workspaceExitModal" class="feature-modal" hidden aria-hidden="true">
+        <div class="feature-modal-backdrop" data-workspace-exit-close></div>
+        <section class="feature-dialog workspace-exit-dialog" role="dialog" aria-modal="true" aria-labelledby="workspaceExitTitle" aria-describedby="workspaceExitDescription">
+          <header class="feature-dialog-header">
+            <div><span class="drawer-kicker">Unsaved changes</span><h2 id="workspaceExitTitle">Save before leaving?</h2></div>
+            <button id="closeWorkspaceExitBtn" type="button" class="quiet-icon" aria-label="Stay in this workspace">×</button>
+          </header>
+          <div class="workspace-exit-body">
+            <p id="workspaceExitDescription">Your latest changes have not been saved. Choose what to do before returning to Library.</p>
+          </div>
+          <footer class="workspace-exit-actions">
+            <button id="discardWorkspaceExitBtn" type="button" class="button secondary danger-button">Don’t save</button>
+            <button id="saveWorkspaceExitBtn" type="button" class="button primary">Save &amp; leave</button>
+          </footer>
+        </section>
+      </div>
+
+      <div id="workspaceHistoryModal" class="feature-modal" hidden aria-hidden="true">
+        <div class="feature-modal-backdrop" data-history-close></div>
+        <section class="feature-dialog history-dialog" role="dialog" aria-modal="true" aria-labelledby="workspaceHistoryTitle">
+          <header class="feature-dialog-header">
+            <div><span class="drawer-kicker">Private workspace snapshots</span><h2 id="workspaceHistoryTitle">Version history</h2></div>
+            <button id="closeWorkspaceHistoryBtn" type="button" class="quiet-icon" aria-label="Close version history">×</button>
+          </header>
+          <div class="history-explainer">Each explicit save creates a recoverable version. Up to 25 versions are retained for this workspace.</div>
+          <div id="workspaceHistoryList" class="history-list" aria-live="polite"></div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Viewport overlays stay outside the clipped, animated workspace panels. -->
+  <div id="accountSettingsModal" class="account-settings-modal" hidden aria-hidden="true">
+    <div class="account-settings-backdrop" data-account-settings-close></div>
+    <section class="account-settings-dialog" role="dialog" aria-modal="true" aria-labelledby="accountSettingsTitle">
+      <header class="account-settings-header">
+        <h2 id="accountSettingsTitle">Settings</h2>
+        <button id="closeAccountSettingsBtn" type="button" class="quiet-icon" aria-label="Close settings">×</button>
+      </header>
+      <div class="settings-layout">
+        <nav class="settings-sidebar" aria-label="Settings sections">
+          <button type="button" data-settings-section="appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><span>Appearance</span></button>
+          <button type="button" data-settings-section="workspace"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8m-4-4v4M3 9h18"/></svg><span>Workspace</span></button>
+          <button type="button" data-settings-section="history"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.6 7.4M3 4v7h7m2-4v5l3 2"/></svg><span>Files & history</span></button>
+        </nav>
+        <div class="settings-content">
+          <section class="settings-panel" data-settings-panel="appearance" hidden>
+            <div class="settings-heading"><h3>Appearance</h3><p>Make Liqu3D feel like yours.</p></div>
+            <form id="appearanceForm" class="settings-form">
+              <fieldset id="themeSetting" class="settings-theme-options">
+                <legend>Theme</legend>
+                <div class="settings-theme-grid">
+                  <label class="settings-theme-choice"><input class="sr-only" type="radio" name="appearanceTheme" value="light"><span class="settings-theme-preview theme-light" aria-hidden="true"><i></i><i></i></span><span class="settings-theme-label">Light</span></label>
+                  <label class="settings-theme-choice"><input class="sr-only" type="radio" name="appearanceTheme" value="dark"><span class="settings-theme-preview theme-dark" aria-hidden="true"><i></i><i></i></span><span class="settings-theme-label">Dark</span></label>
+                  <label class="settings-theme-choice"><input class="sr-only" type="radio" name="appearanceTheme" value="system" checked><span class="settings-theme-preview theme-system" aria-hidden="true"><i></i><i></i></span><span class="settings-theme-label">System</span></label>
+                </div>
+              </fieldset>
+              <div class="settings-option-group">
+                <label class="settings-option-row"><span>Interface density<small id="densityPreviewStatus">Comfortable spacing</small></span><select id="densitySetting"><option value="compact">Compact</option><option value="comfortable">Comfortable</option></select></label>
+                <label class="settings-option-row"><span>Accent color<small>Buttons and highlights</small></span><input id="accentSetting" type="color" value="#00ae42"></label>
+                <label class="settings-switch"><span><strong>Reduce animations</strong><small id="motionPreviewStatus">Animations are on</small></span><input id="reduceAnimationsSetting" type="checkbox" role="switch"></label>
+              </div>
+            </form>
+          </section>
+
+          <section class="settings-panel" data-settings-panel="workspace" hidden>
+            <div class="settings-heading"><h3>Workspace</h3><p>Control when work is saved and models are regenerated.</p></div>
+            <form id="workspacePreferencesForm" class="settings-form">
+              <label class="settings-switch"><span><strong>Auto Save</strong><small>Automatically save workspace changes</small></span><input id="autoSaveSetting" type="checkbox" role="switch"></label>
+              <div class="settings-switch"><span><span class="settings-switch-heading"><label for="autoRegenerateSetting"><strong>Auto Regenerate</strong></label><label class="auto-regenerate-delay-control" title="Wait after the last change"><input id="autoRegenerateDelaySetting" class="auto-regenerate-delay" type="number" inputmode="decimal" min="0" step="any" required value="2" aria-label="Auto Regenerate delay in seconds"><span aria-hidden="true">s</span></label></span><small>Wait after your last change before generating</small></span><input id="autoRegenerateSetting" type="checkbox" role="switch"></div>
+              <label class="settings-switch"><span><strong>Auto Position</strong><small>Arrange newly imported designs when they all overlap at X=0, Y=0</small></span><input id="autoPositionSetting" type="checkbox" role="switch"></label>
+              <label class="settings-switch"><span><strong>Instant Export</strong><small>Open every exported 3MF in Bambu Studio, including bundle contents. Requires Bambu Studio. Your browser may ask you to allow it to open.</small></span><input id="instantExportSetting" type="checkbox" role="switch"></label>
+              <p class="drawer-note">Shift + left-click adds or removes an object from the selection. Cmd on Mac, Ctrl elsewhere: Z to undo, Shift + Z to redo, C to copy, V to paste, Backspace or Delete to remove. Cmd/Ctrl + Enter undoes the latest color arrangement and unchecks Reduce color changes.</p>
+            </form>
+          </section>
+
+          <section class="settings-panel" data-settings-panel="history" hidden>
+            <div class="settings-heading"><h3>Storage &amp; History</h3><p>Review saved data and manage your local storage.</p></div>
+            <div class="settings-action-card"><div><strong>Local storage</strong><span id="historyStorageUsage" role="status">Loading storage usage…</span></div></div>
+            <div class="storage-browser"><p id="accountStorageStatus" role="status"></p><div id="accountStorageTree"></div></div>
+            <div class="settings-danger-row"><div><strong>Clear History</strong><span>Delete workspace revisions and export history.</span></div><button type="button" class="button secondary" data-confirm-action="clear-history">Clear</button></div>
+            <div class="settings-inline-confirm" data-confirm-panel="clear-history" hidden><p>Delete all revision and export history? Your current saved projects will remain.</p><div><button type="button" class="button text-button" data-cancel-confirm="clear-history">Cancel</button><button id="clearHistoryBtn" type="button" class="button danger-button">Clear history</button></div></div>
+          </section>
+
+          <p id="accountSettingsMessage" class="account-settings-message" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="productionDashboardModal" class="feature-modal production-dashboard-modal" hidden aria-hidden="true">
+    <div class="feature-modal-backdrop" data-production-close></div>
+    <section class="workflow-dialog production-dashboard-dialog unified-advanced-dialog" role="dialog" aria-modal="true" aria-labelledby="productionDashboardTitle">
+      <header class="feature-dialog-header production-dashboard-header">
+        <div><span class="drawer-kicker">Current workspace</span><h2 id="productionDashboardTitle">Advanced <span class="beta-badge">Beta</span></h2></div>
+        <div class="production-header-actions"><button id="closeProductionDashboardBtn" type="button" class="quiet-icon" aria-label="Close Advanced">×</button></div>
+      </header>
+      <nav class="production-tabs" role="tablist" aria-label="Advanced sections">
+        <button type="button" class="active" role="tab" aria-selected="true" aria-controls="productionPanelVariants" data-production-tab="variants">Variants</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="productionPanelTools" tabindex="-1" data-production-tab="tools">Rules &amp; Tools</button>
+      </nav>
+      <div class="production-dashboard-body">
+        <section id="productionPanelVariants" role="tabpanel" data-production-panel="variants" class="production-panel">
+          <div class="advanced-pane">
+          <div class="advanced-simple-heading"><strong>Saved variants</strong></div>
+          <input id="variantSearch" class="variant-search" type="search" placeholder="Search variants" aria-label="Search variants" autocomplete="off">
+          <div id="presetStackList" class="preset-stack-list"></div>
+          <details id="variantEditorDetails" class="advanced-save-details">
+            <summary>Save current variant</summary>
+            <div class="advanced-save-body">
+              <div class="workflow-fields">
+                <label class="compact-field"><span>Variant</span><select id="presetTarget"><option value="">New</option></select></label>
+                <label class="compact-field"><span>Name</span><input id="presetName" type="text" maxlength="80" placeholder="Name"></label>
+                <label class="compact-field"><span>Group</span><input id="presetCategory" type="text" maxlength="60" placeholder="Group"></label>
+              </div>
+              <div class="workflow-row"><button id="selectChangedParamsBtn" type="button" class="mini-button">Changed</button><button id="selectAllParamsBtn" type="button" class="mini-button">All</button><button id="clearParamsBtn" type="button" class="mini-button">None</button></div>
+              <input id="variantParameterSearch" class="variant-search" type="search" placeholder="Search all settings" aria-label="Search all variant settings" autocomplete="off">
+              <p id="variantParameterEmpty" class="workflow-empty" role="status" hidden>No matching settings.</p>
+              <div id="presetParameterList" class="preset-parameter-list"></div>
+              <button id="savePresetBtn" type="button" class="button primary">Save variant</button>
+            </div>
+          </details>
+          </div>
+        </section>
+
+        <section id="productionPanelTools" role="tabpanel" data-production-panel="tools" class="production-panel" hidden>
+          <details id="parametricRulesPanel" class="parametric-rules-panel production-rules-tool">
+            <summary><span>Rules</span><small id="parametricRulesSummary">None</small></summary>
+            <div class="parametric-rules-body">
+              <textarea id="parametricRulesEditor" rows="7" spellcheck="false" aria-label="Parametric production rules" placeholder='[{"when":{"param":"width","gt":100},"require":{"param":"magnets","gte":4},"message":"Wide versions need 4 magnets"}]'></textarea>
+              <div class="parametric-rules-footer">
+                <span id="parametricRulesMessage">Deterministic if/then constraints. No AI.</span>
+                <button id="applyParametricRulesBtn" type="button" class="mini-button">Apply</button>
+              </div>
+            </div>
+          </details>
+      <div class="production-tool-grid">
+            <article class="production-editor-card"><h3>Tolerance / calibration profiles</h3><p>Applies reproducible Bambu XY compensation settings without accessing a printer.</p>
+              <label><span>Name</span><input id="productionCalibrationName" placeholder="P1S PLA 0.4"></label>
+              <label><span>Material</span><input id="productionCalibrationMaterial" value="PLA"></label>
+              <div class="production-three"><label><span>Hole XY</span><input id="productionCalibrationHole" type="number" step="0.01" value="0"></label><label><span>Contour XY</span><input id="productionCalibrationContour" type="number" step="0.01" value="0"></label><label><span>Elephant foot</span><input id="productionCalibrationFoot" type="number" step="0.01" value="0"></label></div>
+              <button id="saveProductionCalibrationBtn" type="button" class="mini-button">Save calibration</button><div id="productionCalibrationList" class="production-list compact-list"></div>
+            </article>
+            <article class="production-editor-card"><h3>Reusable workspace templates</h3><p>Reuse a complete generator workspace, Bambu profile and deterministic rules.</p><label><span>Template name</span><input id="productionTemplateName" placeholder="Magnet product defaults"></label><button id="saveProductionTemplateBtn" type="button" class="mini-button">Save current workspace template</button><div id="productionTemplateList" class="production-list compact-list"></div></article>
+            <article class="production-editor-card"><h3>Reusable OpenSCAD components</h3><p>Store modules or parameter logic such as magnet pockets, snap fits, labels and mounting patterns. Copy them into any generator.</p><label><span>Component name</span><input id="productionComponentName" maxlength="120" placeholder="8x3 magnet pocket"></label><label><span>Description</span><input id="productionComponentDescription" maxlength="500" placeholder="Reusable press-fit magnet module"></label><label><span>OpenSCAD source</span><textarea id="productionComponentSource" rows="8" spellcheck="false" placeholder="module magnet_pocket(d=8,h=3) { ... }"></textarea></label><button id="saveProductionComponentBtn" type="button" class="mini-button">Save component</button><div id="productionComponentList" class="production-list compact-list"></div></article>
+          </div>
+        </section>
+      </div>
+      <footer class="feature-dialog-footer production-dashboard-footer"><span id="productionDashboardMessage" role="status" aria-live="polite"></span><span>No live Bambu printer/cloud access is used.</span></footer>
+    </section>
+  </div>
+
+  <dialog id="colorBudgetDialog" class="color-budget-dialog" role="dialog" aria-labelledby="colorBudgetTitle">
+    <form>
+      <h3 id="colorBudgetTitle">Reduce color changes</h3>
+      <label><input type="radio" name="mode" value="minimum" checked> Minimize color changes</label>
+      <label><input type="radio" name="mode" value="maximum"> Fewest plates within a swap limit</label>
+      <input name="maximum" type="number" min="0" step="1" inputmode="numeric" aria-label="Maximum estimated color changes" placeholder="For example, 50" disabled>
+      <label>Colors per plate<select name="filamentSlots" aria-label="Colors per plate"><option value="64">All colors used</option><option value="1">1 color</option><option value="2">2 colors</option><option value="3">3 colors</option><option value="4">4 colors</option><option value="5">5 colors</option><option value="6">6 colors</option><option value="7">7 colors</option><option value="8">8 colors</option><option value="12">12 colors</option><option value="16">16 colors</option><option value="32">32 colors</option></select></label>
+      <p>The swap limit is a ceiling for the entire workspace. Packs everything together when it fits, then minimizes swaps without adding plates. Choose a color capacity that matches your filament setup.</p>
+      <p>Estimates may differ from the slicer’s actual changes.</p>
+      <p>May move objects to different plates. Cmd/Ctrl + Enter / Return undoes this arrangement and unchecks Reduce color changes.</p>
+      <p role="status" aria-live="polite"></p>
+      <div class="color-budget-actions"><button type="button" class="button text-button" data-cancel>Cancel</button><button type="submit" class="button primary">Apply &amp; arrange</button></div>
+    </form>
+  </dialog>
+  <div id="exportMenuLayer" class="export-menu-layer" hidden aria-hidden="true">
+    <div class="export-menu-backdrop" data-export-close></div>
+    <section id="exportPopover" class="export-popover" role="dialog" aria-modal="true" aria-labelledby="exportPopoverTitle" tabindex="-1">
+      <div id="exportChoiceView" class="export-menu-view">
+        <div class="export-popover-heading"><span class="drawer-kicker">Production file</span><h3 id="exportPopoverTitle">Export</h3><p id="exportProfileSummary"></p></div>
+        <button id="exportAllBtn" type="button" class="export-choice-button"><span><strong>Export all</strong><small>Build every plate that contains an object.</small></span><b aria-hidden="true">→</b></button>
+        <button id="exportChooseBtn" type="button" class="export-choice-button"><span><strong>Export manually</strong><small>Choose exactly which plates to export.</small></span><b aria-hidden="true">→</b></button>
+      </div>
+      <div id="exportPlateView" class="export-menu-view" hidden>
+        <div class="export-popover-heading export-plate-heading"><button id="exportBackBtn" type="button" class="export-back-button" aria-label="Back to export choices">←</button><div><span class="drawer-kicker">Manual export</span><h3>Choose plates</h3></div></div>
+        <div class="export-select-row"><button id="exportSelectAllBtn" type="button">Select all</button><button id="exportClearBtn" type="button">Clear</button></div>
+        <div id="exportPlateOptions" class="export-plate-options" role="group" aria-label="Plates to export"></div>
+        <button id="exportSelectedBtn" type="button" class="button primary export-selected-button">Export selected</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="filamentMenuLayer" class="export-menu-layer filament-menu-layer" hidden aria-hidden="true">
+    <div class="export-menu-backdrop" data-filament-close></div>
+    <section id="filamentPopover" class="export-popover filament-popover" role="dialog" aria-modal="true" aria-labelledby="filamentPopoverTitle" tabindex="-1">
+      <div class="filament-popover-header">
+        <div><span class="drawer-kicker">Material</span><h3 id="filamentPopoverTitle">Filament</h3></div>
+        <button id="closeFilamentMenuBtn" type="button" class="quiet-icon" aria-label="Close filament settings">×</button>
+      </div>
+      <form id="filamentSettingsForm" class="filament-settings-form"></form>
+    </section>
+  </div>
+  <script src="/startup-errors.js?v=1.0.0-unified-advanced14"></script>
+  <script type="module" src="/app.js?v=local1"></script>
+</body>
+</html>

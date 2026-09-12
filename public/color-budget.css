@@ -1,0 +1,8 @@
+.color-budget-dialog { position:fixed; inset:auto; margin:0; width:340px; max-width:calc(100vw - 16px); max-height:calc(100dvh - 16px); overflow:auto; padding:20px; border:1px solid var(--border, var(--line-strong)); border-radius:16px; background:var(--panel); color:var(--text); box-shadow:0 20px 70px #0004; }
+.color-budget-dialog::backdrop { background:#0003; backdrop-filter:blur(5px); }
+.color-budget-dialog h3 { margin:0 0 16px; font-size:15px; }
+.color-budget-dialog label { display:flex; align-items:center; gap:8px; margin:12px 0; font-size:12px; }
+.color-budget-dialog input[type=number] { box-sizing:border-box; width:100%; padding:9px; border:1px solid var(--border, var(--line-strong)); border-radius:8px; background:var(--panel); color:var(--text); }
+.color-budget-dialog select { flex:1; min-width:0; padding:8px; border:1px solid var(--border, var(--line-strong)); border-radius:8px; background:var(--panel); color:var(--text); }
+.color-budget-dialog p { font-size:11px; line-height:1.5; color:var(--muted); }
+.color-budget-actions { display:flex; justify-content:flex-end; gap:8px; }

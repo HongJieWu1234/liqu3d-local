@@ -1,0 +1,52 @@
+#!/bin/sh
+# Test-only compatibility shim for CI environments that only provide OpenSCAD 2021.01.
+# Production/runtime discovery never uses this file unless a test explicitly sets OPENSCAD_BIN to it.
+if [ "$1" = "--version" ]; then
+  echo "OpenSCAD version 2026.test-manifold"
+  exit 0
+fi
+if [ "$1" = "--help" ]; then
+  cat <<'EOF'
+Usage: openscad [options] file.scad
+  --backend arg
+  --enable arg       enable experimental feature: textmetrics lazy-union
+  --export-format arg
+EOF
+  exit 0
+fi
+real_openscad="${PMM_TEST_OPENSCAD_BIN:-$(command -v openscad 2>/dev/null)}"
+if [ -z "$real_openscad" ] || [ ! -x "$real_openscad" ]; then
+  echo "A real OpenSCAD binary is required for renderer tests." >&2
+  exit 127
+fi
+# Current builds understand Manifold and feature flags directly. The argument
+# compatibility pass below remains for CI images that still ship 2021.01.
+case "$("$real_openscad" --version 2>&1)" in
+  *2021.01*) ;;
+  *) exec "$real_openscad" "$@" ;;
+esac
+set -- "$@"
+out=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --backend)
+      shift 2
+      ;;
+    --enable)
+      shift 2
+      ;;
+    *)
+      if [ -z "$out" ]; then out="$1"; else out="$out
+$1"; fi
+      shift
+      ;;
+  esac
+done
+# Rebuild argv without eval so quoted definitions remain intact.
+set --
+OLDIFS=$IFS
+IFS='
+'
+for arg in $out; do set -- "$@" "$arg"; done
+IFS=$OLDIFS
+exec "$real_openscad" "$@"
