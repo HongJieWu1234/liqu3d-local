@@ -4,17 +4,29 @@
 
 <h1 align="center">Liqu3D Local</h1>
 
-<p align="center"><strong>Your design. Your colors. Your next print.</strong></p>
+<h2 align="center">Customize parametric models. Generate faster.</h2>
 
-<p align="center">Customize OpenSCAD models, arrange build plates, and export color 3MF projects—all on your computer.</p>
+<p align="center">Turn your OpenSCAD model's editable parameters into controls for dimensions, text, colors, and other options. Generate designs locally with parallel rendering sized to your computer's CPU and RAM, then export your plates as color 3MF projects.</p>
 
 <p align="center">
   <a href="https://github.com/HongJieWu1234/liqu3d-local/releases/download/v1.0.0/Liqu3D-Local-macOS-arm64.zip"><strong>Download for Mac</strong></a>
   &nbsp; · &nbsp;
-  <a href="#make-your-first-design"><strong>First design</strong></a>
+  <a href="#how-to-use-liqu3d"><strong>How to use it</strong></a>
   &nbsp; · &nbsp;
   <a href="https://github.com/HongJieWu1234/liqu3d-local/issues"><strong>Get help</strong></a>
 </p>
+
+---
+
+## Parametric editing, with less waiting
+
+**Change the model through its parameters.** Load a `.scad` file and adjust the supported settings it exposes. For example, change a tag's name and width, or a bracket's dimensions, if those options are defined in the model. OpenSCAD rebuilds the geometry from your values.
+
+**Use your computer's rendering capacity.** Liqu3D chooses how many independent render jobs to run together based on your CPU and installed RAM, up to eight by default. Larger batches can use more of a capable machine; smaller machines run fewer jobs at once.
+
+**Reuse work that is already done.** Identical cacheable designs reuse previous geometry. Changing a model, its parameter values, or relevant fonts triggers a new result when needed. Auto Regenerate can also wait until you finish editing before starting another preview.
+
+The speedup depends on the model, your hardware, and whether a cached result is available. Final exports retain full export detail.
 
 ---
 
@@ -46,25 +58,40 @@ This preview is not Developer ID signed or notarized. If macOS blocks it, follow
 
 ---
 
-## Make your first design
+## How to use Liqu3D
 
-### **1 — Start with a name tag**
+### **1 — Load a parametric SCAD model**
 
-Click **Try a name tag** in the empty workspace. To use your own model instead, choose **Add model file** or **Add SCAD files** and select an OpenSCAD `.scad` file.
+Click **Add SCAD files** at the top and select your `.scad` file. Its supported parameters appear in the left panel. These controls come from the model, so different files expose different options.
 
-### **2 — Make it yours**
+**Need a file to try?** In an empty workspace, click **Try a name tag**. It includes editable text, two colors, and tag dimensions. To start a separate workspace, use the top-right menu → **Library → Add new → Workspace**.
 
-Use the settings on the left to change text, fonts, sizes, and colors. The available settings depend on the model you opened.
+### **2 — Set the values you want**
 
-### **3 — See it on the plate**
+Find the parameter in the left panel, using **Search settings** if the model has many options. Enter a value or choose an option. When a workspace has multiple objects, select the object you want to customize before editing its settings.
 
-Click **Generate all**. Select an object to edit it, drag it to move it, or drag empty space to turn the view. Press **R** to rotate a selected object in 90° steps, then click to apply.
+**Try this with the included name tag:**
 
-### **4 — Check, export, print**
+| Setting | Enter or select | What it changes |
+| --- | --- | --- |
+| **Name Text** | `Alex` | The raised lettering |
+| **Tag Width** | `85` | The tag's overall width in millimeters |
+| **Base Color** | `Black` | The tag body color |
+| **Text Color** | `White` | The lettering color |
 
-Open **Print settings** from the right edge and choose your printer and filament settings. Click **Check plates** to review fit and spacing, then **Export → Export all** or **Export manually** to choose plates. Open the exported **3MF** project in **Bambu Studio** to slice and print.
+### **3 — Generate the updated geometry**
 
-**Keep your work:** give the workspace a name at the top and click **Save**, or press **⌘ S** on Mac.
+Click **Generate all** to build the preview from your new values. With the example above, you should see an **85 mm-wide black tag with white “Alex” lettering**. Change a value and generate again to compare the result.
+
+For automatic updates, open the top-right menu → **Settings → Workspace**, enable **Auto Regenerate**, and enter a delay such as **2.5 seconds**. Each new edit restarts that wait, so generation begins after you stop changing values.
+
+### **4 — Arrange the plate and export a 3MF**
+
+Drag an object to reposition it. Press **R** to turn the selected object in 90° increments, then click to apply. Open **Print settings** from the right edge and select your printer and filament settings.
+
+Click **Check plates** to review the layout. Then choose **Export → Export all** for every populated plate, or **Export → Export manually** to select specific plates. Open the resulting **3MF** project in **Bambu Studio**, review the slice, and print from there.
+
+**Save the editable project too:** enter a workspace name at the top and click **Save** or press **⌘ S**. Reopen it later through **Library** to change its parameters again.
 
 ---
 
