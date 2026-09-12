@@ -9,11 +9,11 @@
 <p align="center">Turn your OpenSCAD model's editable parameters into controls for dimensions, text, colors, and other options. Generate designs locally with parallel rendering sized to your computer's CPU and RAM, then export your plates as color 3MF projects.</p>
 
 <p align="center">
-  <a href="https://github.com/HongJieWu1234/liqu3d-local/releases/download/v1.0.0/Liqu3D-Local-macOS-arm64.zip"><strong>Download for Mac</strong></a>
+  <a href="https://github.com/SamWu18271/liqu3d-local/releases/download/v1.0.0/Liqu3D-Local-macOS-arm64.zip"><strong>Download for Mac</strong></a>
   &nbsp; · &nbsp;
   <a href="#how-to-use-liqu3d"><strong>How to use it</strong></a>
   &nbsp; · &nbsp;
-  <a href="https://github.com/HongJieWu1234/liqu3d-local/issues"><strong>Get help</strong></a>
+  <a href="https://github.com/SamWu18271/liqu3d-local/issues"><strong>Get help</strong></a>
 </p>
 
 ---
@@ -32,7 +32,9 @@ The speedup depends on the model, your hardware, and whether a cached result is 
 
 ## Download & install
 
-### **[↓ Get Liqu3D Local for Mac](https://github.com/HongJieWu1234/liqu3d-local/releases/download/v1.0.0/Liqu3D-Local-macOS-arm64.zip)**
+**Prefer using your browser?** Try the [online version](https://www.liqu3d.com/) if you do not have a supported Mac or do not want to install the desktop rendering tools. The online version requires an account and has separate service terms; the local-app license below applies to this repository and its desktop releases.
+
+### **[↓ Get Liqu3D Local for Mac](https://github.com/SamWu18271/liqu3d-local/releases/download/v1.0.0/Liqu3D-Local-macOS-arm64.zip)**
 
 **Apple Silicon Macs (M-series) · Preview release · English interface**
 
@@ -127,11 +129,29 @@ Click **Check plates** to review the layout. Then choose **Export → Export all
 
 **Changes are not appearing?** Click **Generate all**, or enable **Auto Regenerate** in Workspace settings.
 
-**Still stuck? [Open an issue](https://github.com/HongJieWu1234/liqu3d-local/issues/new)** with your macOS version, OpenSCAD version, and the error message. A small example `.scad` file helps reproduce model problems.
+**Still stuck? [Open an issue](https://github.com/SamWu18271/liqu3d-local/issues/new)** with your macOS version, OpenSCAD version, and the error message. A small example `.scad` file helps reproduce model problems.
 
 ---
 
 ## For developers
+
+### License and commercial use
+
+**Free to use, including in a business. The application remains proprietary.** Read the [full license](LICENSE) before installing, using, or building the app.
+
+| Use | Permission under this license |
+| --- | --- |
+| Use the official app personally or within your business | Allowed, without a license fee or revenue limit |
+| Make and sell your own generated design files or physical prints | Allowed, provided you have the rights to the models, fonts, and other inputs |
+| Customize the bundled first-party SCAD samples for your designs | Allowed, including selling the resulting designs and prints |
+| Inspect source and build the unmodified app for your own use | Allowed |
+| Redistribute, resell, rebrand, embed, or publish builds of the app | Separate written permission required |
+| Modify application code or reuse its protected code/assets in another product | Separate written permission required |
+| Offer a hosted copy, API, or customer-operated generation service | Separate written permission required |
+
+Selling prints or doing design work for clients does not mean selling or hosting the software. Your own designs do not have to be published or licensed as open source. Third-party licenses and rights provided by GitHub's terms continue to apply; see [third-party notices](THIRD_PARTY_NOTICES.md).
+
+The license dated September 12, 2026 replaces the hosted-only notice for current source and future builds. Users of earlier official desktop releases, including v1.0.0, may elect this license too. The existing v1.0.0 ZIP still contains its inherited notice; use the current license linked here or the license attachment on the release page. Previously granted rights are not retroactively withdrawn.
 
 <details>
 <summary><strong>Run from source, build the app, and run checks</strong></summary>
@@ -139,7 +159,7 @@ Click **Check plates** to review the layout. Then choose **Export → Export all
 Use Node.js 24 or newer and install the rendering tools described above.
 
 ```sh
-git clone https://github.com/HongJieWu1234/liqu3d-local.git
+git clone https://github.com/SamWu18271/liqu3d-local.git
 cd liqu3d-local
 npm ci
 npm start
@@ -156,7 +176,7 @@ The project uses plain JavaScript and Electron, with no frontend bundler. `npm r
 | `node tests/test-desktop-package.mjs` | Check packaging exclusions and preserved resources |
 | `node scripts/build-desktop-icon.mjs` | Rebuild the app icon |
 
-Build and test on each target operating system before distribution. These are app folders, not installers. Windows cross-packaging may need Wine for executable metadata. ARM targets use `--arch arm64` and still need compatible native dependencies. Linux needs Electron's desktop libraries and sandbox support. OpenSCAD and Fontconfig are not bundled.
+These build commands are for use permitted by the [license](LICENSE); publishing or distributing your own app build requires separate written permission. Authorized distributors must build and test on each target operating system. These are app folders, not installers. Windows cross-packaging may need Wine for executable metadata. ARM targets use `--arch arm64` and still need compatible native dependencies. Linux needs Electron's desktop libraries and sandbox support. OpenSCAD and Fontconfig are not bundled.
 
 Tests create temporary data; do not point them at personal projects. Older inherited web/Docker fixtures describe the original web edition. See [the maintenance guide](docs/ASTRA_GUIDE.md) for the desktop architecture.
 
@@ -173,4 +193,4 @@ Tests create temporary data; do not point them at personal projects. Older inher
 
 </details>
 
-[License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Release notes](https://github.com/HongJieWu1234/liqu3d-local/releases/tag/v1.0.0)
+[License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Release notes](https://github.com/SamWu18271/liqu3d-local/releases/tag/v1.0.0)

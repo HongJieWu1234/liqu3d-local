@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Liqu3D desktop editor with local projects and native OpenSCAD rendering",
-  "license": "UNLICENSED",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "start": "electron .",
     "test:prime-tower": "node tests/test-prime-tower-layers.mjs && node tests/test-prime-tower-movement.mjs && node tests/test-prime-tower-packing.mjs && node tests/test-prime-tower-preview.mjs",

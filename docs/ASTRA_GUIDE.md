@@ -22,6 +22,7 @@ Native text caching uses `lib/native-font-cache.mjs`: content hashes for the exa
 | Task | Files |
 | --- | --- |
 | Desktop lifecycle, menus, icon | `desktop/main.cjs`, `desktop/icons/`, `scripts/package-desktop.mjs`, `scripts/build-desktop-icon.mjs` |
+| Proprietary license and commercial-use permissions | `LICENSE`, `README.md`, `THIRD_PARTY_NOTICES.md`, root metadata in `package.json` and `package-lock.json` |
 | Editor and generation | `public/app.js`, `public/index.html`, `public/styles.css`, `public/preview-prefetch.js` |
 | Settings and storage | `public/account-settings.js`, `public/account-storage-ui.js`, `lib/account-storage.mjs` |
 | Project library | `public/projects.*`, `public/projects-settings.js` |
@@ -30,6 +31,8 @@ Native text caching uses `lib/native-font-cache.mjs`: content hashes for the exa
 | Exports and replay | `lib/export-history.mjs`, `lib/export-preview.mjs`, `public/export-recipe.js`, `public/export-history-ui.js` |
 
 Preserve sources, profiles, fonts, stable object/plate identity, closed color geometry, cached result identity, cancellation and export recipes. Preview tessellation must not lower final export quality. Generated copies still own their geometry and disposal. The viewer renders on demand; do not restore idle animation loops.
+
+Licensing: free personal and commercial end use, including selling authorized design outputs and prints, is permitted. The first-party application remains proprietary; redistribution, application modification, rebranding, embedding, and third-party hosting require separate written permission. Preserve third-party licenses and GitHub platform rights. `LICENSE` is canonical and must ship with every future app build alongside third-party notices. Do not advertise this as open source. Earlier official desktop releases may elect the new license; do not silently replace their ZIP files or claim previously granted rights have been revoked.
 
 Use `npm run test:local` for real local rendering and app API checks. It creates and cleans temporary data. Never test deletion against the user's data. Relevant pure browser/model tests remain useful; inherited authentication/Docker integration tests assert the old architecture and are not the local acceptance suite.
 

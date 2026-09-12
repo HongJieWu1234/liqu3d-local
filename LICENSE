@@ -1,36 +1,161 @@
-LIQU3D — PROPRIETARY HOSTED-SERVICE NOTICE
+LIQU3D LOCAL PROPRIETARY LICENSE
+Version 1.0 — September 12, 2026
 
-Copyright (c) 2026 Liqu3D. All rights reserved.
+Copyright (c) 2026 Liqu3D. All rights reserved except as expressly granted below.
 
-Liqu3D is proprietary software operated as a hosted online
-service. The original application source code, server software, browser
-interface, documentation, application-specific scripts, configuration, and
-original application assets are not offered to end users for download,
-installation, redistribution, or self-hosting.
+This is a proprietary license with free personal and commercial end use.
+Public source access does not make the Software open source or public domain.
 
-Accessing the website or receiving client-side code in a web browser does not
-transfer ownership of the software and does not grant a general software
-license. Users receive only the limited, temporary authorization technically
-necessary to access and use the hosted service as permitted by the applicable
-service terms.
+1. SCOPE AND OWNERSHIP
 
-Except where expressly authorized in writing by the copyright owner, no
-permission is granted to copy, reproduce, modify, adapt, publish, distribute,
-sublicense, sell, host, mirror, repackage, create derivative works from, or
-commercially reuse the proprietary application or its source code.
+"Software" means the original Liqu3D Local application code, binaries,
+interface, documentation, scripts, configuration, and original assets supplied
+by the copyright holder through the official repository or its releases:
+https://github.com/SamWu18271/liqu3d-local
 
-Any authorization to access or use the hosted service is governed by the
-service's applicable Terms of Service or other written agreement, not by an
-open-source or downloadable-software license.
+"You" means the individual or organization exercising these permissions.
+The copyright holder retains ownership. This license grants only the stated
+permissions; it does not sell or assign the Software. Third-party materials
+and your own content are addressed in sections 3 and 6.
 
-THIRD-PARTY COMPONENTS
+2. FREE PERSONAL AND COMMERCIAL USE
 
-This proprietary notice applies only to original Liqu3D
-application material. Third-party software, libraries, runtimes, fonts,
-models, profiles, specifications, and other materials remain subject to their
-respective licenses and terms. See THIRD_PARTY_NOTICES.md and
-COMMERCIAL-USE-AUDIT.md.
+Subject to this license, the copyright holder grants you a worldwide,
+non-exclusive, royalty-free, non-transferable, non-sublicensable license to:
 
-THE PROPRIETARY APPLICATION MATERIAL IS PROVIDED AND OPERATED SUBJECT TO THE
-APPLICABLE SERVICE TERMS AND, TO THE MAXIMUM EXTENT PERMITTED BY LAW, WITHOUT
-ANY ADDITIONAL WARRANTY CREATED BY THIS NOTICE.
+(a) download, install, and run official copies on computers you own or control
+    for personal, educational, nonprofit, or internal business use;
+(b) use the Software in a business, including paid design and printing work,
+    accepting customers' design inputs, and making and selling physical prints;
+(c) inspect the source, keep private backup copies, and compile the unmodified
+    official source for the uses above; and
+(d) allow your employees and contractors to use those copies solely on your
+    behalf, under these same limits and under your responsibility.
+
+There is no revenue, print-volume, or commercial-use fee under this license.
+Changing documented settings, supplying models or other inputs, and using
+documented configuration options are permitted. Building from source does
+not grant permission to publish or distribute the resulting application.
+
+3. YOUR CONTENT, OUTPUTS, AND SAMPLE DESIGNS
+
+You retain your rights in your inputs and designs. The copyright holder claims
+no ownership of your content merely because you use the Software. You may
+use, modify, share, and sell your generated design files and physical prints,
+including work for customers, subject to the rights in the underlying inputs.
+You need not publish your own designs or source files or credit Liqu3D on
+your outputs as a condition of this license.
+
+You may customize the first-party SCAD samples at models/model.scad and
+public/starter-name-tag.scad to make designs, and use, share, and sell the
+resulting design files and physical prints. First-party sample model code
+included in a normal exported project may accompany that project. This is
+not permission to redistribute the application, extract its implementation,
+or repackage its sample sources as a standalone generator or template library.
+
+This output permission does not grant rights in anyone else's models, fonts,
+profiles, trademarks, or other materials. You must have the necessary rights
+for your intended use. Application code, UI assets, and documentation do not
+become unrestricted output merely because they are copied into an export.
+
+4. SOFTWARE USES REQUIRING SEPARATE WRITTEN PERMISSION
+
+Except for sections 2, 3, and 6, you may not:
+
+(a) redistribute, upload, mirror, publish, sell, rent, lease, sublicense, or
+    give away the Software, source copies, or your own builds, whether modified
+    or unmodified, including through an app store or package registry;
+(b) modify, translate, adapt, or create derivative software from the Software,
+    or copy, extract, port, or incorporate its protected code or assets into
+    another application, library, product, or service;
+(c) offer the Software or its functionality to third parties as a hosted
+    application, SaaS, API, remotely accessible editor, white-label service,
+    or automated customer-operated customization or generation service,
+    whether free or paid;
+(d) bundle or embed the Software in another product or distribution, rebrand
+    it, or pass off the Software or a derivative as your own; or
+(e) remove, obscure, or alter copyright, license, attribution, or ownership
+    notices in copies of the Software.
+
+Your staff using the app to fulfill customer design or printing orders is
+allowed under section 2. Giving customers access to the app, or connecting it
+to a customer-operated generation service, requires separate written permission.
+Ordinary advertising and sale of your permitted design files or prints does
+not by itself constitute hosting the Software.
+
+These restrictions apply whether or not you charge money. Renaming files,
+changing branding, translating or mechanically transforming code, or
+distributing only part of the Software does not create additional rights.
+
+5. BRANDING AND ADDITIONAL PERMISSIONS
+
+No trademark or endorsement rights are granted. You may accurately identify
+the Software, link to the official project, and share screenshots or recordings
+to demonstrate, discuss, or review it without implying sponsorship or
+endorsement. This does not authorize redistribution of the application or
+reuse of its branding for another product.
+
+Redistribution, modification, embedding, OEM arrangements, and hosted-service
+rights require a separate written agreement from the relevant copyright
+holder. A public repository, a star, a fork, a contribution, or silence is not
+such permission. Licensing inquiries may be opened in the official repository;
+do not include confidential business information in a public issue.
+
+6. THIRD-PARTY, PLATFORM, AND MANDATORY RIGHTS
+
+This license covers only material the Liqu3D copyright holder has the right
+to license. Third-party software, runtimes, libraries, fonts, models, profiles,
+and assets remain governed by their own licenses, including any permissions,
+notice requirements, or source obligations those licenses provide. Those
+licenses control for the affected materials; this license does not restrict
+their independently granted rights. See THIRD_PARTY_NOTICES.md and the license
+notices supplied with each component. No third-party component is relicensed
+as proprietary merely by inclusion in this repository or an app bundle.
+
+Nothing here overrides rights already granted by the copyright holder under
+GitHub's Terms of Service, including viewing and forking public repositories
+through GitHub as those terms permit. Those platform rights do not by
+themselves grant a general license to redistribute the app, relicense it,
+or operate a hosted copy outside the rights granted by the applicable terms.
+
+Nothing here limits rights that applicable law does not allow to be waived
+or restricted. This license does not claim exclusive rights in unprotectable
+ideas, facts, methods, or independently developed software.
+
+7. DURATION, BREACH, AND VERSIONS
+
+The permissions for a version supplied under this license continue without
+a time limit while you comply. They end automatically if you materially
+breach this license. Upon termination, stop using and delete Software copies
+held under this license, except copies or rights you may lawfully retain
+independently. Termination does not transfer ownership of your content or
+revoke permissions for outputs lawfully created before termination. The
+ownership, restrictions, third-party exceptions, and liability provisions
+continue as applicable after termination.
+
+Later license changes apply to versions offered under those later terms;
+they do not retroactively withdraw rights already granted. You may elect to
+use earlier official Liqu3D Local releases from this repository, including
+v1.0.0, under this license instead of their inherited hosted-service notice.
+This election does not revoke rights independently granted under another
+license or agreement. These terms do not license a separate hosted Liqu3D
+service or promise access to such a service.
+
+8. WARRANTY AND LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE IS PROVIDED
+"AS IS" AND "AS AVAILABLE", WITHOUT WARRANTIES OF ANY KIND, INCLUDING
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, OR NONINFRINGEMENT.
+NO SUPPORT, UPDATES, CONTINUED AVAILABILITY, OR SUITABILITY OF GENERATED DESIGNS
+FOR A PARTICULAR PRINTING OR PHYSICAL APPLICATION IS PROMISED.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDERS AND
+CONTRIBUTORS ARE NOT LIABLE FOR LOSS OF PROFITS, REVENUE, DATA, OR BUSINESS,
+OR FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ARISING FROM THE SOFTWARE OR ITS USE, EVEN IF ADVISED OF THEIR POSSIBILITY.
+NOTHING HERE EXCLUDES LIABILITY OR REMEDIES THAT CANNOT LAWFULLY BE EXCLUDED.
+
+If a provision is unenforceable, the remaining provisions continue to apply
+to the extent permitted by law. A failure to enforce a provision is not a
+waiver. Any separate written agreement controls only to the extent it
+expressly varies these terms for you.

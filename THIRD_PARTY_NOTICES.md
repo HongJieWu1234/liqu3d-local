@@ -1,6 +1,15 @@
 # Third-party notices
 
-The Liqu3D application itself is proprietary. The components below are third-party works and remain under their respective licenses.
+The original Liqu3D Local application is covered by the proprietary [LICENSE](LICENSE), which permits free personal and commercial end use. Its restrictions do not override independently granted third-party rights. The components below remain under their respective licenses; retain the notices supplied with them.
+
+## Electron and its bundled components
+
+Electron is licensed under the MIT License. Chromium, Node.js, and other bundled components retain their own licenses. Preserve the Electron `LICENSE`, `LICENSES.chromium.html`, and other notices supplied with the packaged runtime; they are separate from Liqu3D's root `LICENSE`.
+Source and notices: <https://github.com/electron/electron>
+
+## Bundled fonts
+
+Baloo 2 and the bundled Liberation fonts are licensed under the SIL Open Font License 1.1. The license copies and copyright notices are in `fonts/bundled/OFL.txt` and `fonts/bundled/liberation/LICENSE`. The app's proprietary restrictions do not replace those licenses.
 
 ## @xmldom/xmldom 0.9.12
 
@@ -21,7 +30,7 @@ License copy: `public/vendor/licenses/fflate-LICENSE.txt`
 
 ## OpenSCAD
 
-The renderer uses OpenSCAD development builds. OpenSCAD is GPL-2.0-or-later.
+The desktop app invokes a separately installed OpenSCAD executable; OpenSCAD is not bundled in the current Mac preview. OpenSCAD is GPL-2.0-or-later, and this application's proprietary license does not restrict OpenSCAD itself.
 Source and license: <https://github.com/openscad/openscad>
 When distributing a renderer image containing OpenSCAD, comply with the applicable GPL source and notice obligations.
 
